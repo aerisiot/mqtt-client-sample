@@ -1,0 +1,39 @@
+This is a simple project to achieve the following:
+
+(1) To show how to talk MQTT using Eclipse Paho Java client library.
+    Codes in this project are primarily from the Paho sample codes.
+(2) To show how the sample Java client application can be integrated with the
+    mobile environment (e.g. Raspbian) to communicate wirelessly using cellular
+    modem; gammu utility is used for this purpose.
+
+--------------------------------------------------------------------------------
+Follow the steps below to demonstrate how it works:
+
+(1-A) To run a MQTT message listener on the topic 'T6MT/echo':
+    $ bin/start_sampleAsyncWait.sh subscribe T6MT/echo
+    
+(1-B) To publish a simple message to the MQTT topic 'T6MO/echo':
+    $ bin/invoke_mo_echo.sh
+      then type in a message and press [Enter]
+    
+(2-A) To run a MQTT message listener on the topic 'T6MT/command':
+    $ bin/start_sampleAsyncWait.sh subscribe T6MT/command
+    
+    On receiving a message of which payload starts with the command 'BEACON',
+    the program will execute 'bin/invoke_mtsm_beacon.sh' to respond with an
+    MO-SM message using gammu utility.
+
+(2-B-1) To publish a simple message with BEACON command to the MQTT topic 'T6MO/command':
+    $ bin/invoke_mo_command.sh BEACON
+    
+    On receiving the message, a counterpart application on the other side of
+    Google IoT Cloud will echo back the command to the topic 'T6MT/command'.
+    Then the MQTT message listener on the device side, as invoked in step 2-A,
+    will follow up with sending an MO-SM.
+
+(2-B-2) To publish a simple message with AERFRAME command to the MQTT topic 'T6MO/command':
+    $ bin/invoke_mo_command.sh AERFRAME
+    
+    On receiving the message, a counterpart application on the other side of
+    Google IoT Cloud will interface with AerFrame to invoke an MT-SM message.
+    

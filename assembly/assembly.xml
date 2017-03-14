@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly
+    xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+    <id>deployment</id>
+
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <!-- Adds dependencies to package under lib directory -->
+    <dependencySets>
+        <dependencySet>
+            <!-- Project artifact is also copied under lib as we will have 
+                a shell script to start our service -->
+            <useProjectArtifact>true</useProjectArtifact>
+            <outputDirectory>${project.artifactId}/lib</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <!-- Adds startup scripts to the root directory of zip package. The 
+            startup scripts are located to src/main/scripts directory as stated by Maven 
+            conventions. -->
+        <fileSet>
+            <directory>scripts</directory>
+            <outputDirectory>${project.artifactId}/bin</outputDirectory>
+            <includes>
+                <include>**/*.sh</include>
+            </includes>
+            <excludes>
+                <exclude>**/*.txt</exclude>
+                <exclude>**/mock*.xml</exclude>
+            </excludes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/resources</directory>
+			<filtered>true</filtered> <!-- DK: added 2015-03 -->
+            <outputDirectory>${project.artifactId}/conf</outputDirectory>
+            <excludes>
+                <exclude>**/*.txt</exclude>
+                <exclude>**/logback-test.xml</exclude>
+                <exclude>**/mock*.xml</exclude>
+                <exclude>**/application.properties.template</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+
+</assembly>
