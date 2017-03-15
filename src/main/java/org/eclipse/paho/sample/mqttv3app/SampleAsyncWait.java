@@ -409,7 +409,7 @@ public class SampleAsyncWait implements MqttCallback {
 		String msg = new String(message.getPayload());
 		if (msg.startsWith("BEACON")) {
 			// Respond with an MO-SM
-			String cmd = "bin/invoke_mtsm_beacon.sh";
+			String cmd = "bin/invoke_mosm_beacon.sh";
 			try {
 				System.out.println("Executing '" + cmd + "' ...");
 				Runtime.getRuntime().exec(cmd);

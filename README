@@ -36,4 +36,10 @@ Follow the steps below to demonstrate how it works:
     
     On receiving the message, a counterpart application on the other side of
     Google IoT Cloud will interface with AerFrame to invoke an MT-SM message.
+
+(3) To handle MT-SM via gammu-smsd:
+    Create/modify /etc/gammu-smsdrc file to add to [smsd] section the following line:
+        runonreceive = $MQTT_CLIENT_SAMPLE_INSTALLATION_DIRECTORY/bin/handle_mtsm.sh
+    
+    On receiving an MT-SM, gammu-smsd will invoke the script 'bin/handle_mtsm.sh'.
     
